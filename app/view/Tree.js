@@ -52,12 +52,11 @@ Ext.define('CopyTreeNodesToGrid.view.Tree', {
                 binding: [{
                         key: 'C',
                         ctrl: true,
-                        fn: function () {debugger;
+                        fn: function () {
                             copiedRecords=[];
                             for(var i=0;i<this.getView().getSelection().length;i++){
                                 copiedRecords.push(this.getView().getSelection()[i].data.text);
                             }
-                            
                         },
                         scope: this
                     }]
