@@ -9,50 +9,15 @@ Ext.application({
     extend: 'CopyTreeNodesToGrid.Application',
     
     autoCreateViewport: 'CopyTreeNodesToGrid.view.main.Main',
+    requires:[
+        'CopyTreeNodesToGrid.view.Tree'
+    ],
     
     launch: function() {
-        var folders = [],
-            folder = {};
-        for (var i = 0; i < 5; i++) {
-            var folder = {
-                text: "Folder" + i,
-                expanded: true,
-                children: []
-            };
-            for (var j = 0; j < 2; j++) {
-                folder.children.push({
-                    text: "Child-" + i + '_' + j,
-                    leaf: false,
-                    expanded: true,
-                    children: [{
-                        text: "SubChildOne-" + i + '_' + j,
-                        leaf: true
-                    }, {
-                        text: "SubChildTwo-" + i + '_' + j,
-                        leaf: true
-                    }]
-                });
-            }
-            folders.push(folder);
-        }
+        
 
 
-        var tree = Ext.create('Ext.tree.Panel', {
-            title: 'Tree',
-            width: '50%',
-            height: 500,
-            border: false,
-            store: Ext.create('Ext.data.TreeStore', {
-                fields: ['text', 'leaf'],
-                root: {
-                    expanded: true,
-                    children: folders
-                }
-            }),
-            multiSelect: true,
-            rootVisible: false
-           
-        });
+        var tree = Ext.create('widget.Tree', {});
 
         var grid = Ext.create('Ext.grid.Panel', {
             title: 'Grid',
@@ -69,7 +34,23 @@ Ext.application({
                 text: "text",
                 dataIndex: "text",
                 flex: 1
-            }]
+            }],
+        listeners:{
+            afterrender:function(){
+                var keyMap = new Ext.util.KeyMap({
+                target: this.getView().el,
+                binding: [{
+                        key: 'V',
+                        ctrl: true,
+                        fn: function () {debugger;
+                            //this.getStore().getData();
+                            console.log('almost Reached');
+                        },
+                        scope: this
+                    }]
+            });
+            }
+        }
         });
 
         Ext.create('Ext.panel.Panel', {
