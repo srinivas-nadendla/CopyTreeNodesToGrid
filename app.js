@@ -15,8 +15,6 @@ Ext.application({
     
     launch: function() {
         
-
-
         var tree = Ext.create('widget.Tree', {});
 
         var grid = Ext.create('Ext.grid.Panel', {
@@ -24,7 +22,7 @@ Ext.application({
             width: '50%',
             minHeight: 200,
             store: Ext.create('Ext.data.Store', {
-                fields: ['text', 'leaf'],
+                fields: ['text'],
                 data: []
             }),
             multiSelect: true,
@@ -42,9 +40,12 @@ Ext.application({
                 binding: [{
                         key: 'V',
                         ctrl: true,
-                        fn: function () {debugger;
-                            //this.getStore().getData();
-                            console.log('almost Reached');
+                        fn: function () {
+                            console.log(copiedRecords);
+                            for(var i=0;i<copiedRecords.length;i++){
+                                this.getStore().add({text : copiedRecords[i]});
+                            }
+                            
                         },
                         scope: this
                     }]
