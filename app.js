@@ -5,16 +5,13 @@
  */
 Ext.application({
     name: 'CopyTreeNodesToGrid',
-
     extend: 'CopyTreeNodesToGrid.Application',
-    
     autoCreateViewport: 'CopyTreeNodesToGrid.view.main.Main',
-    requires:[
+    requires: [
         'CopyTreeNodesToGrid.view.Tree'
     ],
-    
-    launch: function() {
-        
+    launch: function () {
+
         var tree = Ext.create('widget.Tree', {});
 
         var grid = Ext.create('Ext.grid.Panel', {
@@ -27,31 +24,44 @@ Ext.application({
             }),
             multiSelect: true,
             rootVisible: false,
-            
             columns: [{
-                text: "text",
-                dataIndex: "text",
-                flex: 1
-            }],
-        listeners:{
-            afterrender:function(){
-                var keyMap = new Ext.util.KeyMap({
-                target: this.getView().el,
-                binding: [{
-                        key: 'V',
-                        ctrl: true,
-                        fn: function () {
-                            console.log(copiedRecords);
-                            for(var i=0;i<copiedRecords.length;i++){
-                                this.getStore().add({text : copiedRecords[i]});
+                    text: "text",
+                    dataIndex: "text",
+                    flex: 1
+                }],
+            listeners: {
+                afterrender: function () {
+                    var keyMap = new Ext.util.KeyMap({
+                        target: this.getView().el,
+                        binding: [{
+                                key: 'V',
+                                ctrl: true,
+                                fn: function () {
+                                    console.log(copiedRecords);
+                                    for (var i = 0; i < copiedRecords.length; i++) {
+                                        this.getStore().add({text: copiedRecords[i]});
+                                    }
+
+                                },
+                                scope: this
+                            },
+                            {
+                                key: 'C',
+                                ctrl: true,
+                                fn: function () {
+                                    gridRecords = [];
+                                    for (var i = 0; i < this.getView().getSelection().length; i++) {
+                                        gridRecords.push(this.getView().getSelection()[i].data.text);
+                                    }
+                                    debugger;
+
+                                },
+                                scope: this
                             }
-                            
-                        },
-                        scope: this
-                    }]
-            });
+                        ]
+                    });
+                }
             }
-        }
         });
 
         Ext.create('Ext.panel.Panel', {
@@ -60,7 +70,7 @@ Ext.application({
             renderTo: Ext.getBody()
         });
     }
-	
+
     //-------------------------------------------------------------------------
     // Most customizations should be made to CopyTreeNodesToGrid.Application. If you need to
     // customize this file, doing so below this section reduces the likelihood
